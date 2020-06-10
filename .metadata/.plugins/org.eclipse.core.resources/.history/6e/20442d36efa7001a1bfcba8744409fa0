@@ -1,8 +1,0 @@
-<%@ page contentType="text/html; charset=utf-8"%>
-<%@ page import="java.util.Date" %>
-<%-- 이 페이지의 코드는 web.xml에 의해 소스 상단에 자동 포함됩니다.  --%>
-<%-- 이 주석은 jsp 주석이어서 브라우저창에서 페이지 소스보기로 보면 --%>
-<%-- 서버에서 이미 처리되어 보여지지 않습니다.  --%>
-
-
-${CURRENT_TIME = java.util.Date();}
