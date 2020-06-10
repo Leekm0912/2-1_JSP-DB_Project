@@ -1,0 +1,9 @@
+<%-- 전달받은 몸체의 종류를 empty로 지정한다. 즉 몸체를 전달받지 않는다.  --%>
+<%@ tag body-content="empty" pageEncoding="utf-8"%>
+<%@ tag import="java.util.Calendar"%>
+<%
+	Calendar time = Calendar.getInstance();
+%>
+<%=time.get(Calendar.YEAR)%>년
+<%=time.get(Calendar.MONTH) + 1%>월
+<%=time.get(Calendar.DATE)%>일

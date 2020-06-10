@@ -1,0 +1,119 @@
+<%@ page contentType="text/html; charset=utf-8"%>
+<%@ page import="java.sql.*"%>
+<%@ page import="java.io.*"%>
+<%@ page import="java.sql.CallableStatement"%>
+<%@ page import="java.util.*"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+	Connection con = null;
+	String url = "jdbc:oracle:thin:@localhost:1521:orcl";
+	/* 11g express edition은 orcl 대신 XE를 입력한다. */
+	String userid = "MYDB";
+	String pwd = "dongsu14";
+	
+	try { /* 드라이버를 찾는 과정 */
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		System.out.println("드라이버 로드 성공");
+	} catch (ClassNotFoundException e) {
+		e.printStackTrace();
+	}
+	
+	try { /* 데이터베이스를 연결하는 과정 */
+		System.out.println("데이터베이스 연결 준비 ...");
+		con = DriverManager.getConnection(url, userid, pwd);
+		System.out.println("데이터베이스 연결 성공");
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+	
+	String query = "select * from 상세매물 order by 매물등록번호"; /* SQL 문 */
+	try { /* 데이터베이스에 질의 결과를 가져오는 과정 */
+		Statement stmt = con.createStatement();
+		ResultSet rs = stmt.executeQuery(query);
+		List<Integer> row1 = new ArrayList<Integer>();
+		List<String> row2 = new ArrayList<String>();
+		List<String> row3 = new ArrayList<String>();
+		List<String> row4 = new ArrayList<String>();
+		List<Long> row5 = new ArrayList<Long>();
+		while (rs.next()) {
+			row1.add(rs.getInt(1));
+			row2.add(rs.getString(2));
+			row3.add(rs.getString(3));
+			row4.add(rs.getString(4));
+			row5.add(rs.getLong(5));
+		}
+		%>
+	<c:set var="row1"> <%= row1 %> </c:set>
+	<c:set var="row2"> <%= row2 %> </c:set>
+	<c:set var="row3"> <%= row3 %> </c:set>
+	<c:set var="row4"> <%= row4 %> </c:set>
+	<c:set var="row5"> <%= row5 %> </c:set>
+	<table border='1'>
+		<tr>
+			<th>매물등록번호</th>
+			<th>등록일자</th>
+			<th>매도자명</th>
+			<th>주소</th>
+			<th>가격</th>
+		</tr>
+	<%
+		for(int i=0; i<row1.size(); i++){
+			out.print("<tr>");
+				out.print("<td>" + row1.get(i) + "</td>");
+				out.print("<td>" + row2.get(i) + "</td>");
+				out.print("<td>" + row3.get(i) + "</td>");
+				out.print("<td>" + row4.get(i) + "</td>");
+				out.print("<td>" + row5.get(i) + "</td>");
+				String num = row5.get(i).toString();
+				for(int j=0; j<num.length(); j++){
+					out.print(num[j]);
+				}
+			out.print("</tr>");
+		}
+	
+	%>
+		<%-- 
+		<tr>
+			<c:forEach var="i" items="${ row1 }">
+				<td>${ i }</td>
+			</c:forEach>
+		</tr>
+		<tr>
+			<c:forEach var="i" items="${ row2 }">
+				<td>${ i }</td>
+			</c:forEach>
+		</tr>
+		<tr>
+			<c:forEach var="i" items="${ row3 }">
+				<td>${ i }</td>
+			</c:forEach>
+		</tr>
+		<tr>
+			<c:forEach var="i" items="${ row4 }">
+				<td>${ i }</td>
+			</c:forEach>
+		</tr>
+		<tr>
+			<c:forEach var="i" items="${ row5 }">
+				<td>${ i }</td>
+			</c:forEach>
+		</tr>
+		<tr>
+			<c:forEach var="i" items="${ row6 }">
+				<td>${ i }</td>
+			</c:forEach>
+		</tr>
+		--%>
+		
+		
+	</table>
+
+		
+	
+		
+<%
+		con.close();
+	} catch (SQLException e) {
+		e.printStackTrace();
+}
+%>
