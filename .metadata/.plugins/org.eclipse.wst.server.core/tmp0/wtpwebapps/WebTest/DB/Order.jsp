@@ -49,6 +49,7 @@ table {
 		<%-- 일괄적으로 action 페이지에 전달한다. --%> 
 		<input type="submit" value="입력완료">
 		</form>
+		<h2 style="text-align:center;">구매 가능 매물 목록</h2>
 		<%
 		Connection con = null;
 		String url = "jdbc:oracle:thin:@localhost:1521:orcl";
@@ -58,20 +59,20 @@ table {
 
 		try { /* 드라이버를 찾는 과정 */
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			System.out.println("드라이버 로드 성공");
+			//System.out.println("드라이버 로드 성공");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 
 		try { /* 데이터베이스를 연결하는 과정 */
-			System.out.println("데이터베이스 연결 준비 ...");
+			//System.out.println("데이터베이스 연결 준비 ...");
 			con = DriverManager.getConnection(url, userid, pwd);
-			System.out.println("데이터베이스 연결 성공");
+			//System.out.println("데이터베이스 연결 성공");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		String query = "select * from 상세매물 order by 매물등록번호"; /* SQL 문 */
+		String query = "select * from 상세매물 where 상세매물.매물등록번호 not in (select 주문.매물_등록번호 from 주문) order by 상세매물.매물등록번호"; /* SQL 문 */
 		try { /* 데이터베이스에 질의 결과를 가져오는 과정 */
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);

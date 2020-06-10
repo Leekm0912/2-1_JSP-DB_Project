@@ -8,14 +8,23 @@
 <%@ page import="java.util.Date"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
-if (session.getAttribute("userType").toString() == "매수자") {
+try {
+	if (session.getAttribute("userType").toString() == "매수자") {
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('매수자는 매도할 수 없습니다.')");
+		script.println("location.href = 'main.jsp'");
+		script.println("</script>");
+		if (true) return; // 왜인지 이거 안넣으면 중단이 안됨;;
+	}
+} catch (Exception e) {
 	PrintWriter script = response.getWriter();
 	script.println("<script>");
-	script.println("alert('매수자는 매도할 수 없습니다.')");
+	script.println("alert('로그인이 필요합니다.')");
 	script.println("location.href = 'main.jsp'");
 	script.println("</script>");
-	if(true) return; // 왜인지 이거 안넣으면 중단이 안됨;;
 
+	if (true) return;
 }
 request.setCharacterEncoding("utf-8");
 Connection con = null;
@@ -26,15 +35,15 @@ String pwd = "dongsu14";
 
 try { /* 드라이버를 찾는 과정 */
 	Class.forName("oracle.jdbc.driver.OracleDriver");
-	System.out.println("드라이버 로드 성공");
+	//System.out.println("드라이버 로드 성공");
 } catch (ClassNotFoundException e) {
 	e.printStackTrace();
 }
 
 try { /* 데이터베이스를 연결하는 과정 */
-	System.out.println("데이터베이스 연결 준비 ...");
+	//System.out.println("데이터베이스 연결 준비 ...");
 	con = DriverManager.getConnection(url, userid, pwd);
-	System.out.println("데이터베이스 연결 성공");
+	//System.out.println("데이터베이스 연결 성공");
 } catch (SQLException e) {
 	e.printStackTrace();
 }
@@ -42,7 +51,7 @@ try { /* 데이터베이스를 연결하는 과정 */
 SimpleDateFormat timeformat = new SimpleDateFormat("yyyy-MM-dd");
 Date time = new Date();
 int count = -1;
-String query = "select 매물등록번호 from (select 매물등록번호 from 상세매물 order by  매물등록번호 desc) where rownum = 1;"; /* 가장 높은 등록번호 추출 */
+String query = "select 매물등록번호 from (select 매물등록번호 from 상세매물 order by  매물등록번호 desc) where rownum = 1"; /* 가장 높은 등록번호 추출 */
 try { /* 데이터베이스에 질의 결과를 가져오는 과정 */
 	Statement stmt = con.createStatement();
 	ResultSet rs = stmt.executeQuery(query);

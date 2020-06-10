@@ -7,6 +7,27 @@
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="java.util.Date"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+try {
+	if (session.getAttribute("userType").toString() == "매도자") {
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('매도자는 매수할 수 없습니다.')");
+		script.println("location.href = 'main.jsp'");
+		script.println("</script>");
+		if (true) return; // 왜인지 이거 안넣으면 중단이 안됨;;
+	}
+} catch (Exception e) {
+	PrintWriter script = response.getWriter();
+	script.println("<script>");
+	script.println("alert('로그인이 필요합니다.')");
+	script.println("location.href = 'main.jsp'");
+	script.println("</script>");
+
+	if (true) return;
+}
+%>
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -53,15 +74,15 @@ table {
 	ResultSet rs = null;
 	try { /* 드라이버를 찾는 과정 */
 		Class.forName("oracle.jdbc.driver.OracleDriver");
-		System.out.println("드라이버 로드 성공");
+		//System.out.println("드라이버 로드 성공");
 	} catch (ClassNotFoundException e) {
 		e.printStackTrace();
 	}
 
 	try { /* 데이터베이스를 연결하는 과정 */
-		System.out.println("데이터베이스 연결 준비 ...");
+		//System.out.println("데이터베이스 연결 준비 ...");
 		con = DriverManager.getConnection(url, userid, pwd);
-		System.out.println("데이터베이스 연결 성공");
+		//System.out.println("데이터베이스 연결 성공");
 	} catch (SQLException e) {
 		e.printStackTrace();
 	}
