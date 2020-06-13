@@ -19,16 +19,10 @@
 
 <!-- Bootstrap core CSS -->
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="mycss.css" rel="stylesheet">
 <style type="text/css">
-table, td {
-	border: 1px solid black
-}
 
-table {
-	width: 100%;
-	margin: auto;
-	text-align: center;
-}
+
 </style>
 </head>
 
@@ -83,13 +77,13 @@ table {
 				row5.add(rs.getLong(5));
 			}
 		%>
-		<table border='1'>
+		<table class="type1">
 			<tr>
-				<th>매물등록번호</th>
-				<th>등록일자</th>
-				<th>매도자명</th>
-				<th>주소</th>
-				<th>가격</th>
+				<th scope="cols">매물등록번호</th>
+				<th scope="cols">등록일자</th>
+				<th scope="cols">매도자명</th>
+				<th scope="cols">주소</th>
+				<th scope="cols">가격</th>
 			</tr>
 			<%
 				DecimalFormat formatter = new DecimalFormat("###,###");

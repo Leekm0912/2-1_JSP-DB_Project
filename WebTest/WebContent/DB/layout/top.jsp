@@ -26,12 +26,12 @@
 		<c:when test='<%= session.getAttribute("userType").toString() == "매수자" %>'>
 			<a href="logout.jsp" style="color: white;">로그아웃</a>
 			&nbsp&nbsp&nbsp&nbsp
-			<a href="join.jsp" style="color: white;">내정보</a>
+			<a href="mypage.jsp" style="color: white;">내정보</a>
 		</c:when>
 		<c:when test='<%= session.getAttribute("userType").toString() == "매도자" %>'>
 			<a href="logout.jsp" style="color: white;">로그아웃</a>
 			&nbsp&nbsp&nbsp&nbsp
-			<a href="join.jsp" style="color: white;">내정보</a>
+			<a href="mypage.jsp" style="color: white;">내정보</a>
 		</c:when>
 		<c:otherwise>
 			<a href="login.jsp" style="color: white;">로그인</a>

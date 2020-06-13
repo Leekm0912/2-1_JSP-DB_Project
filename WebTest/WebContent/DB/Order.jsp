@@ -19,17 +19,7 @@
 
 <!-- Bootstrap core CSS -->
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<style type="text/css">
-table, td {
-	border: 1px solid black
-}
-
-table {
-	width: 100%;
-	margin: auto;
-	text-align: center;
-}
-</style>
+<link href="mycss.css" rel="stylesheet">
 </head>
 
 <body>
@@ -43,12 +33,6 @@ table {
 
 	<!-- Page Content -->
 	<div class="container">
-		<h1>매물 구매 신청</h1>
-		<form action="add_order.jsp" method="post">
-			매물등록번호: <input type="text" name="address" size="5"> <br> 
-		<%-- 일괄적으로 action 페이지에 전달한다. --%> 
-		<input type="submit" value="입력완료">
-		</form>
 		<h2 style="text-align:center;">구매 가능 매물 목록</h2>
 		<%
 		Connection con = null;
@@ -89,13 +73,15 @@ table {
 				row5.add(rs.getLong(5));
 			}
 		%>
-		<table border='1'>
+		<form action="add_order.jsp" method="post">
+		<table class="type1">
 			<tr>
 				<th>매물등록번호</th>
 				<th>등록일자</th>
 				<th>매도자명</th>
 				<th>주소</th>
 				<th>가격</th>
+				<th>구매신청</th>
 			</tr>
 			<%
 				DecimalFormat formatter = new DecimalFormat("###,###");
@@ -106,10 +92,12 @@ table {
 				out.print("<td style='text-align:center;'>" + row3.get(i) + "</td>");
 				out.print("<td>" + row4.get(i) + "</td>");
 				out.print("<td>" + formatter.format(row5.get(i)) + "원" + "</td>");
+				out.print("<td><input type='submit' value='구매신청' name='data" + row1.get(i) + "' class='btn btn-primary'></td>");
 				out.print("</tr>");
 			}
 			%>
 		</table>
+		</form>
 
 
 

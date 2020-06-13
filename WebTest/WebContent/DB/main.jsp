@@ -18,7 +18,7 @@
 <body>
 
 	<!-- Navigation -->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top" >
 		<div class="container">
 			<jsp:include page="./layout/top.jsp" flush="false" />
 		</div>
@@ -29,12 +29,24 @@
 		<c:if test='<%= session.getAttribute("userType") != null %>'>
 			<c:choose>
 				<c:when test='<%= session.getAttribute("userType").toString() == "매수자" %>'>
-					<%=session.getAttribute("userName") %>
-					매수자님 안녕하십니까.
+					<div class="row">
+						<div class="col-lg-12 text-center">
+							<h1 class="mt-5"><%=session.getAttribute("userName") %>
+					매수자님 환영합니다!</h1>
+							<p>DB 최종 프로젝트 연암부동산 입니다!</p>
+						</div>
+					</div>
 				</c:when>
 				<c:when test='<%= session.getAttribute("userType").toString() == "매도자" %>'>
-					<%=session.getAttribute("userName") %>
-					매도자님 안녕하십니까.
+					
+					<div class="row">
+						<div class="col-lg-12 text-center">
+							<h1 class="mt-5"><%=session.getAttribute("userName") %>
+					매도자님 환영합니다!</h1>
+
+							<p>DB 최종 프로젝트 연암부동산 입니다!</p>
+						</div>
+					</div>
 				</c:when>
 				<c:otherwise>
 					<div class="row">
@@ -48,14 +60,13 @@
 			</c:choose>
 		</c:if>
 	</div>
-	<c:if test='<%= session.getAttribute("userType") == null %>'>
+	<c:if test='<%= session.getAttribute("userType") == null %>' >
 		<div class="row">
 			<div class="col-lg-12 text-center">
 				<h1 class="mt-5">연암공과대학교 2B 이경민</h1>
 				<p class="lead">학번 : 21660072</p>
 				<p>DB 최종 프로젝트 연암부동산 입니다!</p>
 			</div>
-		</div>
 		</div>
 	</c:if>
 

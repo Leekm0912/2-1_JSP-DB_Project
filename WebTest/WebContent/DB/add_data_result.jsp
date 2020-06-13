@@ -31,29 +31,8 @@
 			<jsp:include page="./layout/top.jsp" flush="false" />
 		</div>
 	</nav>
-	<%
-		try {
-		if (session.getAttribute("userType").toString() == "매도자") {
-			PrintWriter script = response.getWriter();
-			script.println("<script>");
-			script.println("alert('매도자는 매수할 수 없습니다.')");
-			script.println("location.href = 'main.jsp'");
-			script.println("</script>");
-			if (true)
-		return; // 왜인지 이거 안넣으면 중단이 안됨;;
-		}
-	} catch (Exception e) {
-		PrintWriter script = response.getWriter();
-		script.println("<script>");
-		script.println("alert('로그인이 필요합니다.')");
-		script.println("location.href = 'main.jsp'");
-		script.println("</script>");
 
-		if (true)
-			return;
-	}
-	%>
-	<h1 style="text-align: center;">${ userName }님의 매물 주문 목록</h1>
+	<h1 style="text-align: center;">${ userName }님이 등록한 매물 목록</h1>
 	<%
 	request.setCharacterEncoding("utf-8");
 	Connection con = null;
@@ -80,8 +59,7 @@
 
 	//query = "select * from 주문 where 매수자이름=" + "'" + name + "'"; /* SQL 문 */
 	String userID = (String) session.getAttribute("userID");
-	query = "select 주문번호, 매수자_이름, 매도자_이름, 매물_등록번호, 주문일자 from 주문, 매수자, 매도자 where 주문.매도자id = 매도자.id and 주문.매수자id = 매수자.id and 매수자.id = "
-			+ "'" + userID + "'" + " order by 주문번호";
+	query = "select * from 매물 where 매도자id = " + "'" + userID + "'" + " order by 등록번호";
 	try { /* 데이터베이스에 질의 결과를 가져오는 과정 */
 		stmt = con.createStatement();
 		rs = stmt.executeQuery(query);
@@ -89,31 +67,27 @@
 		List<String> row2 = new ArrayList<String>();
 		List<String> row3 = new ArrayList<String>();
 		List<Integer> row4 = new ArrayList<Integer>();
-		List<String> row5 = new ArrayList<String>();
 		while (rs.next()) {
 			row1.add(rs.getInt(1));
 			row2.add(rs.getString(2));
 			row3.add(rs.getString(3));
 			row4.add(rs.getInt(4));
-			row5.add(rs.getString(5));
 		}
 	%>
 	<table class="type1">
 		<tr>
-			<th scope="cols">주문번호</th>
-			<th scope="cols">매수자이름</th>
-			<th scope="cols">매도자이름</th>
 			<th scope="cols">매물등록번호</th>
-			<th scope="cols">주문일자</th>
+			<th scope="cols">등록일자</th>
+			<th scope="cols">주소</th>
+			<th scope="cols">가격</th>
 		</tr>
 		<%
 			for (int i = 0; i < row1.size(); i++) {
 			out.print("<tr>");
 			out.print("<td style='text-align:center;'>" + row1.get(i) + "</td>");
-			out.print("<td style='text-align:center;'>" + row2.get(i) + "</td>");
+			out.print("<td style='text-align:center;'>" + row2.get(i).substring(0, 11) + "</td>");
 			out.print("<td style='text-align:center;'>" + row3.get(i) + "</td>");
 			out.print("<td style='text-align:center;'>" + row4.get(i) + "</td>");
-			out.print("<td style='text-align:center;'>" + row5.get(i).substring(0, 11) + "</td>");
 			out.print("</tr>");
 		}
 		} catch (SQLException e) {
