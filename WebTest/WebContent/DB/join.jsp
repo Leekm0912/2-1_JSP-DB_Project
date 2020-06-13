@@ -14,7 +14,7 @@
 	<!-- 스타일시트 참조  -->
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <style type="text/css"></style>
-<title>jsp 게시판 웹사이트</title>
+<title>연암 부동산</title>
 
 </head>
 
@@ -58,21 +58,15 @@
 
 						<input type="text" class="form-control" placeholder="이름" name="userName" maxlength="20">
 					</div>
+					<div class="form-group">
+
+						<input type="text" class="form-control" placeholder="전화번호" name="userPhone" maxlength="20">
+					</div>
 
 					<div class="form-group" style="text-align: center;">
-
 						<div class="btn-group" data-toggle="buttons">
-
-							<label> <input type="radio" name="userGender" autocomplete="off" value="남자" checked>남자 </label> 
-							<label> <input type="radio" name="userGender" autocomplete="off" value="여자">여자 </label>
-
-						</div>
-						<br />
-						<div class="btn-group" data-toggle="buttons">
-
-							<label> <input type="radio" name="jointype" autocomplete="off" value="매수자" checked>매수자 </label> 
-							<label> <input type="radio" name="jointype" autocomplete="off" value="매도자">매도자 </label>
-
+							<label> <input type="radio" name="userType" autocomplete="off" value="매수자" checked>매수자 </label> 
+							<label> <input type="radio" name="userType" autocomplete="off" value="매도자">매도자 </label>
 						</div>
 
 					</div>

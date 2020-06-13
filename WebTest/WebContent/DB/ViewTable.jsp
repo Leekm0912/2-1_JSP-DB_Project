@@ -15,7 +15,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Bare - Start Bootstrap Template</title>
+<title>연암 부동산</title>
 
 <!-- Bootstrap core CSS -->
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -43,6 +43,7 @@ table {
 
 	<!-- Page Content -->
 	<div class="container">
+		<h1 style="text-align:center;">전체 매물 보기</h1>
 		<%
 		Connection con = null;
 		String url = "jdbc:oracle:thin:@localhost:1521:orcl";

@@ -15,7 +15,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Bare - Start Bootstrap Template</title>
+<title>연암 부동산</title>
 
 <!-- Bootstrap core CSS -->
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -43,7 +43,7 @@ table {
 
 	<!-- Page Content -->
 	<div class="container">
-		<h1>매물 등록</h1>
+		<h1>매물 구매 신청</h1>
 		<form action="add_order.jsp" method="post">
 			매물등록번호: <input type="text" name="address" size="5"> <br> 
 		<%-- 일괄적으로 action 페이지에 전달한다. --%> 
@@ -106,7 +106,6 @@ table {
 				out.print("<td style='text-align:center;'>" + row3.get(i) + "</td>");
 				out.print("<td>" + row4.get(i) + "</td>");
 				out.print("<td>" + formatter.format(row5.get(i)) + "원" + "</td>");
-
 				out.print("</tr>");
 			}
 			%>

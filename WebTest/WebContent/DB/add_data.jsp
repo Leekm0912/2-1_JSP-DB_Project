@@ -8,6 +8,7 @@
 <%@ page import="java.util.Date"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
+request.setCharacterEncoding("utf-8");
 try {
 	if (session.getAttribute("userType").toString() == "매수자") {
 		PrintWriter script = response.getWriter();
@@ -26,7 +27,7 @@ try {
 
 	if (true) return;
 }
-request.setCharacterEncoding("utf-8");
+
 Connection con = null;
 String url = "jdbc:oracle:thin:@localhost:1521:orcl";
 /* 11g express edition은 orcl 대신 XE를 입력한다. */

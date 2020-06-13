@@ -49,11 +49,11 @@ public class UserDAO {
 		String SQL = "";
 		String userType = "";
 		if(type.equals("매수자")) {
-			SQL = "SELECT PW,매수자_이름, ID, 성별 FROM 매수자 WHERE ID = ?";
+			SQL = "SELECT PW,매수자_이름, ID FROM 매수자 WHERE ID = ?";
 			userType = "매수자";
 		}
 		else if(type.equals("매도자")) {
-			SQL = "SELECT PW,매도자_이름, ID, 성별 FROM 매도자 WHERE ID = ?";
+			SQL = "SELECT PW,매도자_이름, ID FROM 매도자 WHERE ID = ?";
 			userType = "매도자";
 		}
 		
@@ -78,11 +78,19 @@ public class UserDAO {
 			if (rs.next()) {
 
 				// 패스워드 일치한다면 실행
-
-				if (rs.getString(1).equals(userPassword)) {
+				String enpw = rs.getString(1);
+				char [] enpw_char = enpw.toCharArray();
+				for(int i=0; i<enpw_char.length;i++){
+					int temp = (int)enpw_char[i];
+					temp += 30;
+					enpw_char[i] = (char)temp;
+				}
+				enpw = new String(enpw_char);
+				System.out.println(enpw);
+				
+				if (enpw.equals(userPassword)) {
 					user.setUserName(rs.getString(2));
 					user.setUserID(rs.getString(3));
-					user.setUserGender(rs.getString(4));
 					user.setUserType(userType);
 					
 					return user; // 로긴 성공

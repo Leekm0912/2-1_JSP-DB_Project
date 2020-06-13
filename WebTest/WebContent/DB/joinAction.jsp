@@ -1,6 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
-<%@ page import="db.UserDAO"%>
+<%@ page contentType="text/html; charset=utf-8"%>
+<%@ page import="java.sql.*"%>
+<%@ page import="java.io.*"%>
+<%@ page import="java.sql.CallableStatement"%>
+<%@ page import="java.util.*"%>
+<%@ page import="java.text.DecimalFormat"%>
+<%@ page import="java.text.SimpleDateFormat"%>
+<%@ page import="java.util.Date"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- userdao의 클래스 가져옴 -->
 
 <%@ page import="java.io.PrintWriter"%>
@@ -11,102 +17,92 @@
 %>
 
 
-
-<!-- 한명의 회원정보를 담는 user클래스를 자바 빈즈로 사용 / scope:브라우저와 세션 연결에 사용-->
-
-<jsp:useBean id="user" class="db.User" scope="session" />
-
-<jsp:setProperty name="user" property="userID" />
-
-<jsp:setProperty name="user" property="userPassword" />
-
-<jsp:setProperty name="user" property="userType" />
-
-
-
 <!DOCTYPE html>
 
 <html>
 
 <head>
 
-
-
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>jsp 게시판 웹사이트</title>
+<title>연암 부동산</title>
 
 </head>
 
 <body>
 
 	<%
-		UserDAO userDAO = new UserDAO(); //인스턴스생성
-		System.out.println("userDAO : " + userDAO);
-	int result = userDAO.login(user.getUserID(), user.getUserPassword(),user.getUserType());
+	request.setCharacterEncoding("utf-8");
+	pageContext.setAttribute("userID", request.getParameter("userID"));
+	
+	pageContext.setAttribute("userName", request.getParameter("userName"));
+	pageContext.setAttribute("userPhone", request.getParameter("userPhone"));
+	pageContext.setAttribute("userType", request.getParameter("userType"));
+	// 비밀번호 암호화
+	
+	String enpw = request.getParameter("userPassword");
+	char [] enpw_char = enpw.toCharArray();
+	for(int i=0; i<enpw_char.length;i++){
+		int temp = (int)enpw_char[i];
+		temp -= 30;
+		enpw_char[i] = (char)temp;
+	}
+	enpw = new String(enpw_char);
+	pageContext.setAttribute("userPassword", enpw);
+	PreparedStatement ppst = null;
+	Connection con = null;
+	String query = "";
+	String url = "jdbc:oracle:thin:@localhost:1521:orcl";
+	/* 11g express edition은 orcl 대신 XE를 입력한다. */
+	String userid = "MYDB";
+	String pwd = "dongsu14";
 
-	//로그인 성공
-
-	if (result <= 1) {
-
-		PrintWriter script = response.getWriter();
-		if(result == 1) {
-			session.setAttribute("userType", "매수자");
-		}
-		else if(result == 2) {
-			session.setAttribute("userType", "매도자");
-		}
-		
-		response.sendRedirect("ViewTable.jsp");
-
+	try { /* 드라이버를 찾는 과정 */
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		//System.out.println("드라이버 로드 성공");
+	} catch (ClassNotFoundException e) {
+		e.printStackTrace();
 	}
 
-	//로그인 실패
+	try { /* 데이터베이스를 연결하는 과정 */
+		//System.out.println("데이터베이스 연결 준비 ...");
+		con = DriverManager.getConnection(url, userid, pwd);
+		//System.out.println("데이터베이스 연결 성공");
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
 
-	else if (result == 0) {
+	String userType = (String)pageContext.getAttribute("userType");
+	if (userType.equals("매수자")) {
+		query = "insert into 매수자 values(?,?,?,?)";
+	} else if (userType.equals("매도자")) {
+		query = "insert into 매도자 values(?,?,?,?)";
+	}
 
+	try { /* 데이터베이스에 질의 결과를 가져오는 과정 */
+		ppst = null;
+		ppst = con.prepareStatement(query); // PreparedStatement 객체 생성(쿼리 생성)
+		ppst.setString(1, (String) pageContext.getAttribute("userName"));
+		ppst.setString(2, (String) pageContext.getAttribute("userID"));
+		ppst.setString(3, (String) pageContext.getAttribute("userPassword"));
+		ppst.setString(4, (String) pageContext.getAttribute("userPhone"));
+		ppst.executeUpdate(); // 쿼리(sql) 실행
+	} catch (SQLException e) {
+		e.printStackTrace();
 		PrintWriter script = response.getWriter();
 
 		script.println("<script>");
 
-		script.println("alert('비밀번호가 틀립니다.')");
+		script.println("alert('잘못됐거나 중복된 입력값 입니다(DB 오류).')");
 
 		script.println("history.back()");
 
 		script.println("</script>");
+		return;
 
 	}
 
-	//아이디 없음
-
-	else if (result == -1) {
-
-		PrintWriter script = response.getWriter();
-
-		script.println("<script>");
-
-		script.println("alert('존재하지 않는 아이디 입니다.')");
-
-		script.println("history.back()");
-
-		script.println("</script>");
-
-	}
-
-	//DB오류
-
-	else if (result == -2) {
-
-		PrintWriter script = response.getWriter();
-
-		script.println("<script>");
-
-		script.println("alert('DB오류가 발생했습니다.')");
-
-		script.println("history.back()");
-
-		script.println("</script>");
-
-	}
+	con.close();
+	response.sendRedirect("login.jsp");
 	%>
 
 

@@ -10,8 +10,6 @@ public class User {
 
 	private String userName;
 
-	private String userGender;
-
 	private String userType;
 
 	public String getUserID() {
@@ -47,18 +45,6 @@ public class User {
 	public void setUserName(String userName) {
 
 		this.userName = userName;
-
-	}
-
-	public String getUserGender() {
-
-		return userGender;
-
-	}
-
-	public void setUserGender(String userGender) {
-
-		this.userGender = userGender;
 
 	}
 

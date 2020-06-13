@@ -19,9 +19,7 @@
 
 <jsp:setProperty name="user" property="userID" param="userID"/>
 
-<jsp:setProperty name="user" property="userPassword" param="userPassword"/>
-
-<jsp:setProperty name="user" property="userType" param="jointype"/>
+<jsp:setProperty name="user" property="userType" param="userType"/>
 
 
 
@@ -34,7 +32,7 @@
 
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>jsp 게시판 웹사이트</title>
+<title>연암 부동산</title>
 
 </head>
 
@@ -42,12 +40,10 @@
 
 	<%
 	UserDAO userDAO = new UserDAO(); //인스턴스생성
-	User result = userDAO.login(user.getUserID(), user.getUserPassword(), user.getUserType());
+	User result = userDAO.login(user.getUserID(), request.getParameter("userPassword"), user.getUserType());
 	session.setAttribute("userName", result.getUserName());
-	session.setAttribute("userGender", result.getUserGender());
-	
 	session.setAttribute("userID",request.getParameter("userID"));
-	session.setAttribute("userPassword",user.getUserPassword());
+	session.setAttribute("userPassword",request.getParameter("userPassword"));
 	
 	//로그인 성공
 	if (result.getUserType() == "매수자" || result.getUserType() == "매도자") {

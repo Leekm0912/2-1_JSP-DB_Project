@@ -1,35 +1,25 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ page contentType="text/html; charset=utf-8"%>
 <!DOCTYPE html>
-
-<html>
+<html lang="ko">
 
 <head>
 
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>연암 부동산</title>
 
-	<!-- 뷰포트 -->
-<meta name="viewport" content="width=device-width" initial-scale="1">
-
-	<!-- 스타일시트 참조  -->
+<!-- Bootstrap core CSS -->
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<style type="text/css">
-	.jumbotron { 
-   width: 100%;
-   margin: auto; /*margin:auto를 이용해도 동일*/
-}
-</style>
-<title>jsp 게시판 웹사이트</title>
-
 </head>
 
 <body>
 
-	<!-- 네비게이션  -->
-
+	<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
 		<div class="container">
-			<jsp:include page="./layout/top.jsp" flush="true" />
+			<jsp:include page="./layout/top.jsp" flush="false" />
 		</div>
 	</nav>
 
@@ -63,8 +53,8 @@
 					</div>
 					<div class="btn-group" data-toggle="buttons">
 
-							<label> <input type="radio" name="jointype" autocomplete="off" value="매수자" checked>매수자 </label> 
-							<label> <input type="radio" name="jointype" autocomplete="off" value="매도자">매도자 </label>
+							<label> <input type="radio" name="userType" autocomplete="off" value="매수자" checked>매수자 </label> 
+							<label> <input type="radio" name="userType" autocomplete="off" value="매도자">매도자 </label>
 
 					</div>
 					<input type="submit" class="btn btn-primary form-control" value="로그인">
