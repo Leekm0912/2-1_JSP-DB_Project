@@ -31,6 +31,13 @@ if (userType == "매도자") {
 	script.println("</script>");
 	if(true) return; // 왜인지 이거 안넣으면 중단이 안됨;;
 
+} else if(userType == null){
+	PrintWriter script = response.getWriter();
+	script.println("<script>");
+	script.println("alert('로그인이 필요합니다.')");
+	script.println("location.href = 'login.jsp'");
+	script.println("</script>");
+	if(true) return; // 왜인지 이거 안넣으면 중단이 안됨;;
 }
 request.setCharacterEncoding("utf-8");
 Connection con = null;
@@ -72,7 +79,7 @@ if(cnt == -1){
 	PrintWriter script = response.getWriter();
 	script.println("<script>");
 	script.println("alert('DB오류')");
-	script.println("location.href = 'main.jsp'");
+	script.println("history.back()");
 	script.println("</script>");
 }
 query = "select 매도자ID from 매물 where 등록번호="+num; 
@@ -106,7 +113,7 @@ if(overlap != 0){
 	PrintWriter script = response.getWriter();
 	script.println("<script>");
 	script.println("alert('이미 주문된 매물입니다')");
-	script.println("location.href = 'main.jsp'");
+	script.println("history.back()");
 	script.println("</script>");
 	return;
 }
@@ -128,8 +135,8 @@ try { /* 데이터베이스에 질의 결과를 가져오는 과정 */
 	PrintWriter script = response.getWriter();
 	e.printStackTrace();
 	script.println("<script>");
-	script.println("alert('이미 팔린 매물입니다.')");
-	script.println("location.href = 'main.jsp'");
+	script.println("alert('잘못된 사용입니다(DB오류)')");
+	script.println("history.back()");
 	script.println("</script>");
 
 	if (true) return;

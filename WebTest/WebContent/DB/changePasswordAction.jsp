@@ -117,6 +117,7 @@ try { /* 데이터베이스에 질의 결과를 가져오는 과정 */
 	}
 	else{
 		PrintWriter script = response.getWriter();
+		
 		script.println("<script>");
 		
 		script.println("alert('현재 비밀번호가 다릅니다.')");

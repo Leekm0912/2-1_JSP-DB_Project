@@ -22,7 +22,7 @@ try {
 	PrintWriter script = response.getWriter();
 	script.println("<script>");
 	script.println("alert('로그인이 필요합니다.')");
-	script.println("location.href = 'main.jsp'");
+	script.println("location.href = 'login.jsp'");
 	script.println("</script>");
 
 	if (true) return;
