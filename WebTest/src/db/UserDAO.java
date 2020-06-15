@@ -20,23 +20,7 @@ public class UserDAO {
 
 	// mysql에 접속해 주는 부분
 	public UserDAO() { // 생성자 실행될때마다 자동으로 db연결이 이루어 질 수 있도록함
-		try {
-
-			String dbURL = "jdbc:oracle:thin:@localhost:1521:orcl"; // localhost:3306 포트는 컴퓨터설치된 mysql주소
-
-			String dbID = "MYDB";
-
-			String dbPassword = "dongsu14";
-
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-
-			conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
-
-		} catch (Exception e) {
-
-			e.printStackTrace(); // 오류가 무엇인지 출력
-
-		}
+		conn = DB.getDB().con;
 
 	}
 

@@ -6,6 +6,7 @@
 <%@ page import="java.text.DecimalFormat"%>
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="java.util.Date"%>
+<%@ page import="db.DB" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ko">
@@ -56,27 +57,11 @@
 	<h1 style="text-align: center;">${ userName }님의 매물 주문 목록</h1>
 	<%
 	request.setCharacterEncoding("utf-8");
-	Connection con = null;
-	String url = "jdbc:oracle:thin:@localhost:1521:orcl";
-	String userid = "MYDB";
-	String pwd = "dongsu14";
+	Connection con = DB.getDB().con;
+
 	String query = "";
 	Statement stmt = null;
 	ResultSet rs = null;
-	try { /* 드라이버를 찾는 과정 */
-		Class.forName("oracle.jdbc.driver.OracleDriver");
-		//System.out.println("드라이버 로드 성공");
-	} catch (ClassNotFoundException e) {
-		e.printStackTrace();
-	}
-
-	try { /* 데이터베이스를 연결하는 과정 */
-		//System.out.println("데이터베이스 연결 준비 ...");
-		con = DriverManager.getConnection(url, userid, pwd);
-		//System.out.println("데이터베이스 연결 성공");
-	} catch (SQLException e) {
-		e.printStackTrace();
-	}
 
 	//query = "select * from 주문 where 매수자이름=" + "'" + name + "'"; /* SQL 문 */
 	String userID = (String) session.getAttribute("userID");

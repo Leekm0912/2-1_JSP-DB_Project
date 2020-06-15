@@ -6,6 +6,7 @@
 <%@ page import="java.text.DecimalFormat"%>
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="java.util.Date"%>
+<%@ page import="db.DB" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%
@@ -17,29 +18,12 @@ String nowPW = request.getParameter("now_password");
 String changePW1 = request.getParameter("change_password1");
 String changePW2 = request.getParameter("change_password2");
 
-String url = "jdbc:oracle:thin:@localhost:1521:orcl";
-String userid = "MYDB";
-String pwd = "dongsu14";
 String query = "";
 Statement stmt = null;
 ResultSet rs = null;
 PreparedStatement ppst = null;
-Connection con = null;
 
-try { /* 드라이버를 찾는 과정 */
-	Class.forName("oracle.jdbc.driver.OracleDriver");
-	//System.out.println("드라이버 로드 성공");
-} catch (ClassNotFoundException e) {
-	e.printStackTrace();
-}
-
-try { /* 데이터베이스를 연결하는 과정 */
-	//System.out.println("데이터베이스 연결 준비 ...");
-	con = DriverManager.getConnection(url, userid, pwd);
-	//System.out.println("데이터베이스 연결 성공");
-} catch (SQLException e) {
-	e.printStackTrace();
-}
+Connection con = DB.getDB().con;
 
 if (userType.equals("매수자")) {
 	query = "select pw from 매수자 where id = " + "'" + userID + "'";

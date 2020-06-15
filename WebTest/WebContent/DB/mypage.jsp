@@ -84,7 +84,7 @@
 
 			<!-- 점보트론 -->
 
-			<div style="padding-top: 20px; width: 60%; margin: auto; background-color: lightgray; border-radius: 10px;">
+			<div style="padding-top: 20px; width: 60%; margin: auto; background-color: lightblue; border-radius: 10px;">
 
 				<!-- 로그인 정보를 숨기면서 전송post -->
 
