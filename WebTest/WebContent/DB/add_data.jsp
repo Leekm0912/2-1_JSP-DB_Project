@@ -14,7 +14,7 @@ try {
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
 		script.println("alert('매수자는 매도할 수 없습니다.')");
-		script.println("location.href = 'main.jsp'");
+		script.println("history.back();");
 		script.println("</script>");
 		if (true) return; // 왜인지 이거 안넣으면 중단이 안됨;;
 	}
@@ -22,7 +22,7 @@ try {
 	PrintWriter script = response.getWriter();
 	script.println("<script>");
 	script.println("alert('로그인이 필요합니다.')");
-	script.println("location.href = 'login.jsp'");
+	script.println("history.back();");
 	script.println("</script>");
 
 	if (true) return;

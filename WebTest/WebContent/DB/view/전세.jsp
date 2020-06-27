@@ -24,7 +24,7 @@
 </head>
 <body>
 	<%
-	Connection con = null;
+		Connection con = null;
 	String url = "jdbc:oracle:thin:@localhost:1521:orcl";
 	/* 11g express edition은 orcl 대신 XE를 입력한다. */
 	String userid = "MYDB";
@@ -75,9 +75,9 @@
 	%>
 	<form action="to.jsp" method="post">
 		<table class="type1">
-		<% 
-		out.print("<input type='hidden' name='type' value='"+ type +"'>");
-		%>
+			<%
+				out.print("<input type='hidden' name='type' value='" + type + "'>");
+			%>
 			<tr>
 				<th scope="cols">매물등록번호</th>
 				<th scope="cols">등록일자</th>
@@ -88,10 +88,14 @@
 				<%
 					if (type.equals("sell")) {
 					out.print("<th scope='cols'>구매 버튼</th>");
+					out.print("<th scope='cols'>지도 보기</th>");
 				} else if (type.equals("update")) {
 					out.print("<th scope='cols'>삭제 버튼</th>");
+				} else {
+					out.print("<th scope='cols'>지도 보기</th>");
 				}
 				%>
+
 			</tr>
 			<%
 				DecimalFormat formatter = new DecimalFormat("###,###");
@@ -105,10 +109,18 @@
 				out.print("<td>" + row6.get(i) + "개월" + "</td>");
 				if (type.equals("sell")) {
 					out.print("<td><input type='submit' value='구매신청' name='data" + row1.get(i) + "' class='btn btn-primary'></td>");
+					out.print("<td style='text-align:center;'><span onclick=\"btn('" + row4.get(i) + "', '" + row1.get(i)
+					+ "번 매물')\" class='btn btn-primary'>지도 보기</span></td>");
+
 				} else if (type.equals("update")) {
 					out.print("<td><input type='submit' value='삭제' name='remove_data" + row1.get(i)
 					+ "' class='btn btn-primary'></td>");
+				} else {
+					out.print("<td style='text-align:center;'><span onclick=\"btn('" + row4.get(i) + "', '" + row1.get(i)
+					+ "번 매물')\" class='btn btn-primary'>지도 보기</span></td>");
+
 				}
+
 				out.print("</tr>");
 			}
 			%>
@@ -120,6 +132,14 @@
 		e.printStackTrace();
 	}
 	%>
+
+	<script>
+		function btn(address,locate="") {
+			parent.viewInKakaoMap(address,locate);
+		}
+	</script>
+
+
 	<!-- Bootstrap core JavaScript -->
 	<script src="../vendor/jquery/jquery.slim.min.js"></script>
 	<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

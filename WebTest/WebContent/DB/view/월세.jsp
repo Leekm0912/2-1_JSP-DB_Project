@@ -86,11 +86,14 @@
 				<th scope="cols">보증금</th>
 				<th scope="cols">월세</th>
 				<%
-					if (type.equals("sell")) {
-						out.print("<th scope='cols'>구매 버튼</th>");
-					}else if (type.equals("update")) {
-						out.print("<th scope='cols'>삭제 버튼</th>");
-					}
+				if (type.equals("sell")) {
+					out.print("<th scope='cols'>구매 버튼</th>");
+					out.print("<th scope='cols'>지도 보기</th>");
+				} else if (type.equals("update")) {
+					out.print("<th scope='cols'>삭제 버튼</th>");
+				} else {
+					out.print("<th scope='cols'>지도 보기</th>");
+				}
 				%>
 			</tr>
 			<%
@@ -105,9 +108,16 @@
 				out.print("<td>" + formatter.format(row6.get(i)) + "원" + "</td>");
 				if (type.equals("sell")) {
 					out.print("<td><input type='submit' value='구매신청' name='data" + row1.get(i) + "' class='btn btn-primary'></td>");
-				}else if (type.equals("update")) {
+					out.print("<td style='text-align:center;'><span onclick=\"btn('" + row4.get(i) + "', '" + row1.get(i)
+					+ "번 매물')\" class='btn btn-primary'>지도 보기</span></td>");
+
+				} else if (type.equals("update")) {
 					out.print("<td><input type='submit' value='삭제' name='remove_data" + row1.get(i)
 					+ "' class='btn btn-primary'></td>");
+				} else {
+					out.print("<td style='text-align:center;'><span onclick=\"btn('" + row4.get(i) + "', '" + row1.get(i)
+					+ "번 매물')\" class='btn btn-primary'>지도 보기</span></td>");
+
 				}
 				out.print("</tr>");
 			}
@@ -116,14 +126,18 @@
 	</form>
 
 
-
-
 	<%
 		con.close();
 	} catch (SQLException e) {
 		e.printStackTrace();
 	}
 	%>
+	<script>
+		btn();
+		function btn(address,locate="") {
+			parent.viewInKakaoMap(address,locate);
+		}
+	</script>
 	<!-- Bootstrap core JavaScript -->
 	<script src="../vendor/jquery/jquery.slim.min.js"></script>
 	<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
