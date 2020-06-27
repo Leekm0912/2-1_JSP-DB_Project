@@ -24,15 +24,23 @@
 </head>
 
 <body>
+	<% 
+	String isInfoPage = request.getParameter("page");
+	if(isInfoPage != null){
+		if(isInfoPage.equals("info")){
+	
+	%>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+			<div class="container">
+				<jsp:include page="./layout/top.jsp" flush="false" />
+			</div>
+		</nav>
+	
+	<%
+		}
+	}
+	%>
 
-	<!-- Navigation -->
-	<!-- 
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-		<div class="container">
-			
-		</div>
-	</nav>
-	-->
 	<h1 style="text-align: center;">${ userName }님이 등록한 매물 목록</h1>
 		<div class="container">
 		<a href="./view/전세.jsp?type=update" target="main_frame" class="btn btn-primary">전세</a>

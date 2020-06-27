@@ -26,14 +26,22 @@
 
 <body>
 
-	<!-- Navigation -->
-	<!-- 
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-		<div class="container">
-			
-		</div>
-	</nav>
-	-->
+	<% 
+	String isInfoPage = request.getParameter("page");
+	if(isInfoPage != null){
+		if(isInfoPage.equals("info")){
+	
+	%>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+			<div class="container">
+				<jsp:include page="./layout/top.jsp" flush="false" />
+			</div>
+		</nav>
+	
+	<%
+		}
+	}
+	%>
 	<%
 		try {
 		if (session.getAttribute("userType").toString() == "매도자") {

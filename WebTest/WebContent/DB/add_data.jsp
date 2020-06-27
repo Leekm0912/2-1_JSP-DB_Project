@@ -85,8 +85,29 @@ try { /* 데이터베이스에 질의 결과를 가져오는 과정 */
 		ppst.setString(2, session.getAttribute("userID").toString());
 		ppst.setString(3, request.getParameter("date"));
 		ppst.setString(4, request.getParameter("price").toString());
-		ppst.executeUpdate(); // 쿼리(sql) 실행
+	}else if(sellType.equals("월세")){
+		query = "insert into 월세 values(?,?,?,?,?)";
+		ppst = con.prepareStatement(query); // PreparedStatement 객체 생성(쿼리 생성)
+		ppst.setString(1, Integer.toString(count));
+		ppst.setString(2, session.getAttribute("userID").toString());
+		ppst.setString(3, request.getParameter("date"));
+		ppst.setString(4, request.getParameter("price").toString());
+		ppst.setString(5, request.getParameter("price2").toString());
+	}else if(sellType.equals("토지")){
+		query = "insert into 토지 values(?,?,?,?)";
+		ppst = con.prepareStatement(query); // PreparedStatement 객체 생성(쿼리 생성)
+		ppst.setString(1, Integer.toString(count));
+		ppst.setString(2, session.getAttribute("userID").toString());
+		ppst.setString(3, request.getParameter("price").toString());
+		ppst.setString(4, request.getParameter("price2").toString());
+	}else if(sellType.equals("매매")){
+		query = "insert into 매매 values(?,?,?)";
+		ppst = con.prepareStatement(query); // PreparedStatement 객체 생성(쿼리 생성)
+		ppst.setString(1, Integer.toString(count));
+		ppst.setString(2, session.getAttribute("userID").toString());
+		ppst.setString(3, request.getParameter("price").toString());
 	}
+	ppst.executeUpdate(); // 쿼리(sql) 실행
 	
 } catch (SQLException e) {
 	e.printStackTrace();

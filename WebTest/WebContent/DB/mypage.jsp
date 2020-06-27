@@ -90,6 +90,9 @@
 				<!-- 로그인 정보를 숨기면서 전송post -->
 
 				<form method="post" action="mypageAction.jsp">
+				<% 
+				out.print("<input type='hidden' name='page' value='info'>");
+				%>
 					<h3 style="text-align: center;"><%=name%>
 						회원님의 정보창 입니다.
 					</h3>

@@ -32,6 +32,7 @@
 	String pwd = "dongsu14";
 	String query = "";
 	String type = request.getParameter("type");
+	String id = (String) session.getAttribute("userID");
 
 	try { /* 드라이버를 찾는 과정 */
 		Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -51,6 +52,8 @@
 		query = "select * from 상세매물_월세 order by 매물등록번호"; /* SQL 문 */
 	} else if (type.equals("sell")) {
 		query = "select * from 상세매물_월세 where 상세매물_월세.매물등록번호 not in (select 주문.매물_등록번호 from 주문) order by 상세매물_월세.매물등록번호";
+	}else if (type.equals("update")) {
+		query = "select * from 상세매물_월세 where 매도자명 = (select 매도자_이름 from 매도자 where id='" + id + "') order by 매물등록번호";
 	}
 	try { /* 데이터베이스에 질의 결과를 가져오는 과정 */
 		Statement stmt = con.createStatement();
@@ -70,8 +73,11 @@
 			row6.add(rs.getLong("월세"));
 		}
 	%>
-	<form action="../add_order.jsp" method="post">
+	<form action="to.jsp" method="post">
 		<table class="type1">
+		<% 
+		out.print("<input type='hidden' name='type' value='"+ type +"'>");
+		%>
 			<tr>
 				<th scope="cols">매물등록번호</th>
 				<th scope="cols">등록일자</th>
@@ -81,8 +87,10 @@
 				<th scope="cols">월세</th>
 				<%
 					if (type.equals("sell")) {
-					out.print("<th scope='cols'>구매 버튼</th>");
-				}
+						out.print("<th scope='cols'>구매 버튼</th>");
+					}else if (type.equals("update")) {
+						out.print("<th scope='cols'>삭제 버튼</th>");
+					}
 				%>
 			</tr>
 			<%
@@ -97,6 +105,9 @@
 				out.print("<td>" + formatter.format(row6.get(i)) + "원" + "</td>");
 				if (type.equals("sell")) {
 					out.print("<td><input type='submit' value='구매신청' name='data" + row1.get(i) + "' class='btn btn-primary'></td>");
+				}else if (type.equals("update")) {
+					out.print("<td><input type='submit' value='삭제' name='remove_data" + row1.get(i)
+					+ "' class='btn btn-primary'></td>");
 				}
 				out.print("</tr>");
 			}

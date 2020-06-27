@@ -24,7 +24,7 @@
 </head>
 <body>
 	<%
-		Connection con = null;
+	Connection con = null;
 	String url = "jdbc:oracle:thin:@localhost:1521:orcl";
 	/* 11g express edition은 orcl 대신 XE를 입력한다. */
 	String userid = "MYDB";
@@ -63,12 +63,14 @@
 		List<String> row3 = new ArrayList<String>();
 		List<String> row4 = new ArrayList<String>();
 		List<Long> row5 = new ArrayList<Long>();
+		List<Integer> row6 = new ArrayList<Integer>();
 		while (rs.next()) {
 			row1.add(rs.getInt("매물등록번호"));
 			row2.add(rs.getString("등록일자"));
 			row3.add(rs.getString("매도자명"));
 			row4.add(rs.getString("주소"));
 			row5.add(rs.getLong("가격"));
+			row6.add(rs.getInt("계약월수"));
 		}
 	%>
 	<form action="to.jsp" method="post">
@@ -82,6 +84,7 @@
 				<th scope="cols">매도자명</th>
 				<th scope="cols">주소</th>
 				<th scope="cols">가격</th>
+				<th scope="cols">계약월수</th>
 				<%
 					if (type.equals("sell")) {
 					out.print("<th scope='cols'>구매 버튼</th>");
@@ -99,6 +102,7 @@
 				out.print("<td style='text-align:center;'>" + row3.get(i) + "</td>");
 				out.print("<td>" + row4.get(i) + "</td>");
 				out.print("<td>" + formatter.format(row5.get(i)) + "원" + "</td>");
+				out.print("<td>" + row6.get(i) + "개월" + "</td>");
 				if (type.equals("sell")) {
 					out.print("<td><input type='submit' value='구매신청' name='data" + row1.get(i) + "' class='btn btn-primary'></td>");
 				} else if (type.equals("update")) {
