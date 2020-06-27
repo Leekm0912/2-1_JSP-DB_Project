@@ -8,7 +8,6 @@
 <%@ page import="java.util.Date"%>
 <%@ page import="java.util.stream.Stream"%>
 <%@ page import="java.util.Collection.*"%>
-<%@ page import="db.DB" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 Enumeration<String> temp = request.getParameterNames();
@@ -16,10 +15,12 @@ Iterator<String> i = temp.asIterator();
 String num = "";
 while(i.hasNext()){
 	String name = i.next();
-	num = name.split("data")[1];
-	System.out.println(num);
-	if(!num.equals("")){
-		break;
+	if(name.contains("data")){
+		num = name.split("data")[1];
+		System.out.println(num);
+		if(!num.equals("")){
+			break;
+		}
 	}
 }
 
@@ -28,7 +29,7 @@ if (userType == "매도자") {
 	PrintWriter script = response.getWriter();
 	script.println("<script>");
 	script.println("alert('매도자는 매수할 수 없습니다.')");
-	script.println("location.href = 'main.jsp'");
+	script.println("history.back();");
 	script.println("</script>");
 	if(true) return; // 왜인지 이거 안넣으면 중단이 안됨;;
 
@@ -36,14 +37,31 @@ if (userType == "매도자") {
 	PrintWriter script = response.getWriter();
 	script.println("<script>");
 	script.println("alert('로그인이 필요합니다.')");
-	script.println("location.href = 'login.jsp'");
+	//script.println("location.href = 'login.jsp'");
+	script.println("history.back();");
 	script.println("</script>");
 	if(true) return; // 왜인지 이거 안넣으면 중단이 안됨;;
 }
-
-
 request.setCharacterEncoding("utf-8");
-Connection con = DB.getDB().con;
+Connection con = null;
+String url = "jdbc:oracle:thin:@localhost:1521:orcl";
+String userid = "MYDB";
+String pwd = "dongsu14";
+
+try { /* 드라이버를 찾는 과정 */
+	Class.forName("oracle.jdbc.driver.OracleDriver");
+	//System.out.println("드라이버 로드 성공");
+} catch (ClassNotFoundException e) {
+	e.printStackTrace();
+}
+
+try { /* 데이터베이스를 연결하는 과정 */
+	//System.out.println("데이터베이스 연결 준비 ...");
+	con = DriverManager.getConnection(url, userid, pwd);
+	//System.out.println("데이터베이스 연결 성공");
+} catch (SQLException e) {
+	e.printStackTrace();
+}
 
 SimpleDateFormat timeformat = new SimpleDateFormat("yyyy-MM-dd");
 Date time = new Date();
@@ -82,9 +100,10 @@ try { /* 데이터베이스에 질의 결과를 가져오는 과정 */
 }
 
 // 매물 중복등록 방지
+/*
 query = "select 매물_등록번호 from 주문 where 매물_등록번호 = " + num; 
 int overlap = 0;
-try { /* 데이터베이스에 질의 결과를 가져오는 과정 */
+try {
 	Statement stmt = con.createStatement();
 	ResultSet rs = stmt.executeQuery(query);
 
@@ -102,6 +121,7 @@ if(overlap != 0){
 	script.println("</script>");
 	return;
 }
+*/
 
 //query = "exec 매물삽입(" + ++count + ",'" + timeformat.format(time) +"',"+ request.getParameter("id") +",'"+ request.getParameter("address") +"',"+ request.getParameter("price") +")"; /* 미리 만들어놓은 프로시저 이용 */
 
@@ -128,6 +148,8 @@ try { /* 데이터베이스에 질의 결과를 가져오는 과정 */
 }
 
 con.close();
-response.sendRedirect("order_result.jsp");
+
+//response.sendRedirect("order_result.jsp");
 %>
+<jsp:forward page="order_result.jsp"/>
 

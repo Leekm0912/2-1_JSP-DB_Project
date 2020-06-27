@@ -24,24 +24,20 @@
 	</nav>
 
 	<!-- Page Content -->
-	<div class="container" >
-		<div style="margin:auto; width:50%; text-align:center;">
-		<h1>매물 등록</h1>
-		<form action="add_data.jsp" method="post">
-			<h5>주소</h5> <input type="text" name="address" size="50" class="form-control" id="exampleTextarea" style="width:100%;"> <br> 
-			<h5>가격</h5> <input type="text" name="price" size="20" class="form-control" id="exampleTextarea" style="width:100%;"> <br> 
-		<%-- 일괄적으로 action 페이지에 전달한다. --%> 
-		<div style="margin:auto; text-align:center;">
-			<input type="submit" value="입력완료" class="btn btn-primary" >
-		</div>
-		</form>
+	<div class="container">
+		<div style="margin: auto; width: 50%; text-align: center;">
+			<h1>매물 등록</h1>
+
+			<a href="./view/전세등록.jsp" target="main_frame" class="btn btn-primary">전세</a> 
+			<a href="./view/월세등록.jsp" target="main_frame" class="btn btn-primary">월세</a> 
+			<a href="./view/토지등록.jsp" target="main_frame" class="btn btn-primary">토지</a> 
+			<a href="./view/매매등록.jsp" target="main_frame" class="btn btn-primary">매매</a>
 		</div>
 	</div>
-
+	<iframe src="./view/전세등록.jsp" style="display: block; margin: auto; width: 95vw; height: 80vh" id="main_frame" name="main_frame"> </iframe>
 	<!-- Bootstrap core JavaScript -->
 	<script src="vendor/jquery/jquery.slim.min.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
 </body>
 
 </html>

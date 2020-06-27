@@ -34,81 +34,13 @@
 	<!-- Page Content -->
 	<div class="container">
 		<h2 style="text-align:center;">구매 가능 매물 목록</h2>
-		<%
-		Connection con = null;
-		String url = "jdbc:oracle:thin:@localhost:1521:orcl";
-		/* 11g express edition은 orcl 대신 XE를 입력한다. */
-		String userid = "MYDB";
-		String pwd = "dongsu14";
+		<a href="./view/전세.jsp?type=sell" target="main_frame" class="btn btn-primary">전세</a>
+		<a href="./view/월세.jsp?type=sell" target="main_frame" class="btn btn-primary">월세</a>
+		<a href="./view/토지.jsp?type=sell" target="main_frame" class="btn btn-primary">토지</a>
+		<a href="./view/매매.jsp?type=sell" target="main_frame" class="btn btn-primary">매매</a>
 
-		try { /* 드라이버를 찾는 과정 */
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			//System.out.println("드라이버 로드 성공");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		try { /* 데이터베이스를 연결하는 과정 */
-			//System.out.println("데이터베이스 연결 준비 ...");
-			con = DriverManager.getConnection(url, userid, pwd);
-			//System.out.println("데이터베이스 연결 성공");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		String query = "select * from 상세매물 where 상세매물.매물등록번호 not in (select 주문.매물_등록번호 from 주문) order by 상세매물.매물등록번호"; /* SQL 문 */
-		try { /* 데이터베이스에 질의 결과를 가져오는 과정 */
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			List<Integer> row1 = new ArrayList<Integer>();
-			List<String> row2 = new ArrayList<String>();
-			List<String> row3 = new ArrayList<String>();
-			List<String> row4 = new ArrayList<String>();
-			List<Long> row5 = new ArrayList<Long>();
-			while (rs.next()) {
-				row1.add(rs.getInt(1));
-				row2.add(rs.getString(2));
-				row3.add(rs.getString(3));
-				row4.add(rs.getString(4));
-				row5.add(rs.getLong(5));
-			}
-		%>
-		<form action="add_order.jsp" method="post">
-		<table class="type1">
-			<tr>
-				<th>매물등록번호</th>
-				<th>등록일자</th>
-				<th>매도자명</th>
-				<th>주소</th>
-				<th>가격</th>
-				<th>구매신청</th>
-			</tr>
-			<%
-				DecimalFormat formatter = new DecimalFormat("###,###");
-			for (int i = 0; i < row1.size(); i++) {
-				out.print("<tr>");
-				out.print("<td style='text-align:center;'>" + row1.get(i) + "</td>");
-				out.print("<td>" + row2.get(i).substring(0, 11) + "</td>");
-				out.print("<td style='text-align:center;'>" + row3.get(i) + "</td>");
-				out.print("<td>" + row4.get(i) + "</td>");
-				out.print("<td>" + formatter.format(row5.get(i)) + "원" + "</td>");
-				out.print("<td><input type='submit' value='구매신청' name='data" + row1.get(i) + "' class='btn btn-primary'></td>");
-				out.print("</tr>");
-			}
-			%>
-		</table>
-		</form>
-
-
-
-
-		<%
-			con.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		%>
 	</div>
+	<iframe src="./view/전세.jsp?type=sell" style="display: block; margin: auto; width: 95vw; height: 80vh" id="main_frame" name="main_frame"> </iframe>
 	<!-- Bootstrap core JavaScript -->
 	<script src="vendor/jquery/jquery.slim.min.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

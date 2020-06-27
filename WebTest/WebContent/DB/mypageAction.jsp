@@ -14,12 +14,14 @@ Enumeration<String> temp = request.getParameterNames();
 Iterator<String> i = temp.asIterator();
 while (i.hasNext()) {
 	String name = i.next();
-	type = Integer.parseInt(name.split("type")[1]);
-	if (type != 0) {
-		break;
+	if(name.equals("type1") | name.equals("type2")){
+		type = Integer.parseInt(name.split("type")[1]);
+		if (type != 0) {
+			break;
+		}
 	}
 }
-pageContext.setAttribute("type", type);
+request.setAttribute("type", type);
 %>
 <c:choose>
 	<c:when test='${ type == 1 }'> <%-- 매수자 확인 --%>

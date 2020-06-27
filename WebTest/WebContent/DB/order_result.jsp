@@ -6,7 +6,6 @@
 <%@ page import="java.text.DecimalFormat"%>
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="java.util.Date"%>
-<%@ page import="db.DB" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ko">
@@ -22,16 +21,19 @@
 <!-- Bootstrap core CSS -->
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="mycss.css" rel="stylesheet">
+<link href="../mycss.css" rel="stylesheet">
 </head>
 
 <body>
 
 	<!-- Navigation -->
+	<!-- 
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
 		<div class="container">
-			<jsp:include page="./layout/top.jsp" flush="false" />
+			
 		</div>
 	</nav>
+	-->
 	<%
 		try {
 		if (session.getAttribute("userType").toString() == "매도자") {
@@ -57,11 +59,28 @@
 	<h1 style="text-align: center;">${ userName }님의 매물 주문 목록</h1>
 	<%
 	request.setCharacterEncoding("utf-8");
-	Connection con = DB.getDB().con;
-
+	Connection con = null;
+	String url = "jdbc:oracle:thin:@localhost:1521:orcl";
+	String userid = "MYDB";
+	String pwd = "dongsu14";
 	String query = "";
 	Statement stmt = null;
 	ResultSet rs = null;
+	Integer getParam1 = (Integer)request.getAttribute("type"); 
+	try { /* 드라이버를 찾는 과정 */
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		//System.out.println("드라이버 로드 성공");
+	} catch (ClassNotFoundException e) {
+		e.printStackTrace();
+	}
+
+	try { /* 데이터베이스를 연결하는 과정 */
+		//System.out.println("데이터베이스 연결 준비 ...");
+		con = DriverManager.getConnection(url, userid, pwd);
+		//System.out.println("데이터베이스 연결 성공");
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
 
 	//query = "select * from 주문 where 매수자이름=" + "'" + name + "'"; /* SQL 문 */
 	String userID = (String) session.getAttribute("userID");
@@ -83,6 +102,7 @@
 			row5.add(rs.getString(5));
 		}
 	%>
+	<form method="post" action="delete_order.jsp">
 	<table class="type1">
 		<tr>
 			<th scope="cols">주문번호</th>
@@ -90,6 +110,11 @@
 			<th scope="cols">매도자이름</th>
 			<th scope="cols">매물등록번호</th>
 			<th scope="cols">주문일자</th>
+			<%
+				if(getParam1 != null){
+					out.print("<th scope='cols'>주문취소</th>");
+				}
+			%>
 		</tr>
 		<%
 			for (int i = 0; i < row1.size(); i++) {
@@ -99,6 +124,9 @@
 			out.print("<td style='text-align:center;'>" + row3.get(i) + "</td>");
 			out.print("<td style='text-align:center;'>" + row4.get(i) + "</td>");
 			out.print("<td style='text-align:center;'>" + row5.get(i).substring(0, 11) + "</td>");
+			if(getParam1 != null){
+				out.print("<td><input type='submit' value='주문취소' name='data" + row1.get(i) + "' class='btn btn-primary'></td>");
+			}
 			out.print("</tr>");
 		}
 		} catch (SQLException e) {
@@ -107,4 +135,7 @@
 		}
 		%>
 	</table>
+	</form>
+	<script src="vendor/jquery/jquery.slim.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>

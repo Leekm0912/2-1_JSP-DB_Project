@@ -19,6 +19,7 @@
 
 <!-- 스타일시트 참조  -->
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <style type="text/css"></style>
 <title>연암 부동산</title>
 
@@ -84,12 +85,11 @@
 
 			<!-- 점보트론 -->
 
-			<div style="padding-top: 20px; width: 60%; margin: auto; background-color: lightblue; border-radius: 10px;">
+			<div style="padding-top: 20px; width: 60%; margin: auto; background-color: lightgray; border-radius: 10px;">
 
 				<!-- 로그인 정보를 숨기면서 전송post -->
 
 				<form method="post" action="mypageAction.jsp">
-
 					<h3 style="text-align: center;"><%=name%>
 						회원님의 정보창 입니다.
 					</h3>
@@ -134,6 +134,7 @@
 	<!-- 부트스트랩 JS  -->
 
 	<script src="js/bootstrap.js"></script>
+	<script src="../js/bootstrap.js"></script>
 
 
 

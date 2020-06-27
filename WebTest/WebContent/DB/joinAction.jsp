@@ -6,7 +6,6 @@
 <%@ page import="java.text.DecimalFormat"%>
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="java.util.Date"%>
-<%@ page import="db.DB" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- userdao의 클래스 가져옴 -->
 
@@ -38,8 +37,8 @@
 	pageContext.setAttribute("userName", request.getParameter("userName"));
 	pageContext.setAttribute("userPhone", request.getParameter("userPhone"));
 	pageContext.setAttribute("userType", request.getParameter("userType"));
-	// 비밀번호 암호화
 	
+	// 비밀번호 암호화. key=30
 	String enpw = request.getParameter("userPassword");
 	char [] enpw_char = enpw.toCharArray();
 	for(int i=0; i<enpw_char.length;i++){
@@ -49,11 +48,28 @@
 	}
 	enpw = new String(enpw_char);
 	pageContext.setAttribute("userPassword", enpw);
-	
 	PreparedStatement ppst = null;
+	Connection con = null;
 	String query = "";
-	
-	Connection con = DB.getDB().con;
+	String url = "jdbc:oracle:thin:@localhost:1521:orcl";
+	/* 11g express edition은 orcl 대신 XE를 입력한다. */
+	String userid = "MYDB";
+	String pwd = "dongsu14";
+
+	try { /* 드라이버를 찾는 과정 */
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		//System.out.println("드라이버 로드 성공");
+	} catch (ClassNotFoundException e) {
+		e.printStackTrace();
+	}
+
+	try { /* 데이터베이스를 연결하는 과정 */
+		//System.out.println("데이터베이스 연결 준비 ...");
+		con = DriverManager.getConnection(url, userid, pwd);
+		//System.out.println("데이터베이스 연결 성공");
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
 
 	String userType = (String)pageContext.getAttribute("userType");
 	if (userType.equals("매수자")) {
