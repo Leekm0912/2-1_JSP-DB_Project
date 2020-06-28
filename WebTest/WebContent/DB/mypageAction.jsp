@@ -14,7 +14,7 @@ Enumeration<String> temp = request.getParameterNames();
 Iterator<String> i = temp.asIterator();
 while (i.hasNext()) {
 	String name = i.next();
-	if(name.equals("type1") | name.equals("type2")){
+	if(name.equals("type1") | name.equals("type2") | name.equals("type3")){
 		type = Integer.parseInt(name.split("type")[1]);
 		if (type != 0) {
 			break;
@@ -30,7 +30,7 @@ request.setAttribute("type", type);
 	<c:when test='${ type == 2 }'> <%-- 매도자 확인 --%>
 		<jsp:forward page="add_data_result.jsp" />
 	</c:when>
-	<c:when test='${ type == 3 }'> <%-- 비밀번호 변경 --%>
+	<c:when test='${ type == 3}'> <%-- 비밀번호 변경 --%>
 		<jsp:forward page="change_password.jsp" />
 	</c:when>
 </c:choose>

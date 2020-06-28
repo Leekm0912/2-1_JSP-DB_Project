@@ -116,8 +116,9 @@
 							</c:when>
 						</c:choose>
 					</c:if>
-					
+					<c:if test='${isKakao == false }'>
 					<br /> <input type="submit" class="btn btn-primary form-control" value="비밀번호 변경" name="type3" style="border-radius: 10px;">
+					</c:if>
 				</form>
 
 			</div>

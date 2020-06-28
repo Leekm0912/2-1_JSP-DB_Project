@@ -115,6 +115,12 @@ try { /* 데이터베이스에 질의 결과를 가져오는 과정 */
 
 con.close();
 //response.sendRedirect("ViewTable.jsp");
+PrintWriter script = response.getWriter();
+script.println("<script>");
+script.println("alert('작업이 완료되었습니다.');");
+script.println("parent.goToResult();");
+script.println("</script>");
+if(true) return;
 %>
-<<jsp:forward page="./view/전세등록.jsp"></jsp:forward>
+<!--<jsp:forward page="./view/전세등록.jsp"></jsp:forward> -->
 

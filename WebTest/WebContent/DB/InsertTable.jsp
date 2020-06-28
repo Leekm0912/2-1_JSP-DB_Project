@@ -38,6 +38,11 @@
 	<!-- Bootstrap core JavaScript -->
 	<script src="vendor/jquery/jquery.slim.min.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script>
+		function goToResult(){
+			location.href="add_data_result.jsp?page=info";
+		}
+	</script>
 </body>
 
 </html>

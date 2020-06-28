@@ -39,11 +39,30 @@
 <body>
 
 	<%
+	User result = null;
 	UserDAO userDAO = new UserDAO(); //인스턴스생성
-	User result = userDAO.login(user.getUserID(), request.getParameter("userPassword"), user.getUserType());
-	session.setAttribute("userName", result.getUserName());
-	session.setAttribute("userID",request.getParameter("userID"));
-	session.setAttribute("userPassword",request.getParameter("userPassword"));
+	String isKakao = request.getParameter("type");
+	if(isKakao != null){
+		if(isKakao.contains("kakao")){
+			String kakaoName = request.getParameter("id");
+			String kakaoId = request.getParameter("pw");
+			System.out.println("카카오톡 로그인 : " + kakaoName + kakaoId + isKakao);
+			
+			result = userDAO.login(kakaoName, kakaoId, isKakao);
+			session.setAttribute("userName", result.getUserName());
+			session.setAttribute("userID",kakaoName);
+			session.setAttribute("userPassword",kakaoId);
+			session.setAttribute("isKakao","true");
+		}
+	}else{
+		
+		result = userDAO.login(user.getUserID(), request.getParameter("userPassword"), user.getUserType());
+		session.setAttribute("userName", result.getUserName());
+		session.setAttribute("userID",request.getParameter("userID"));
+		session.setAttribute("userPassword",request.getParameter("userPassword"));
+		session.setAttribute("isKakao","false");
+	}
+	
 	
 	//로그인 성공
 	if (result.getUserType() == "매수자" || result.getUserType() == "매도자") {

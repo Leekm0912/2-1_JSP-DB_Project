@@ -53,13 +53,24 @@
 					</div>
 					<div class="btn-group" data-toggle="buttons">
 
-							<label> <input type="radio" name="userType" autocomplete="off" value="매수자" checked>매수자 </label> 
-							<label> <input type="radio" name="userType" autocomplete="off" value="매도자">매도자 </label>
+						<label> <input type="radio" name="userType" autocomplete="off" value="매수자" checked>매수자
+						</label> <label> <input type="radio" name="userType" autocomplete="off" value="매도자">매도자
+						</label>
 
 					</div>
 					<input type="submit" class="btn btn-primary form-control" value="로그인">
 				</form>
-
+				<br/><h4 style="text-align:center;">or</h4><br/>
+				<!-- 카카오 로그인 -->
+				<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+				<h5 style="text-align:center;">매수자 카카오톡 로그인</h5> 
+				<a id="custom-login-btn" href="javascript:loginWithKakao('매수자')" style="text-align:center;"> <img src="//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg" width="270" /> </a> <br/><br/>
+				<h5 style="text-align:center;">매도자 카카오톡 로그인</h5>
+				<a id="custom-login-btn" href="javascript:loginWithKakao('매도자')" style="text-align:center;"> <img src="//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg" width="270" />
+				</a>
+				<br/>
+				<p id="token-result"></p>
+				<!--  카카오 로그인 -->
 			</div>
 
 		</div>
@@ -67,7 +78,56 @@
 	</div>
 
 
+	<script type="text/javascript">
+		// input your appkey
+		Kakao.init('baca3a5f6f931f8a69d6569bf6473bf5')
+		function loginWithKakao(type) {
+			Kakao.Auth.login({
+				success : function(authObj) {
+					var parseObj = JSON.parse(JSON.stringify(authObj));
+					console.log("access_token : " + parseObj.access_token);
+					Kakao.Auth.setAccessToken(parseObj.access_token);
+					console.log(Kakao.Auth.getAccessToken());
+					Kakao.API.request({
+						url : '/v2/user/me',
+						//url : '/v1/api/talk/profile',
+						success : function(res) {
+							console.log(res);
+							var userName = res.properties.nickname;
+							var userID = res.id; //유저의 카카오톡 고유 id
 
+							console.log(userName);
+							console.log(userID);
+							location.href="loginAction.jsp?type=kakao"+type+"&id="+userName+"&pw="+userID;
+						},
+						fail : function(error) {
+							alert(JSON.stringify(error));
+						}
+					});
+				},
+				fail : function(err) {
+					alert(JSON.stringify(err))
+				},
+			})
+		}
+
+		// UI code below
+		getToken()
+		function getToken() {
+			const token = getCookie('authorize-access-token')
+			if (token) {
+				Kakao.Auth.setAccessToken(token)
+				document.getElementById('token-result').innerText = 'login success. token: '
+						+ Kakao.Auth.getAccessToken()
+			}
+		}
+		function getCookie(name) {
+			const value = "; " + document.cookie;
+			const parts = value.split("; " + name + "=");
+			if (parts.length === 2)
+				return parts.pop().split(";").shift();
+		}
+	</script>
 
 
 	<!-- 애니매이션 담당 JQUERY -->
